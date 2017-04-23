@@ -13,3 +13,12 @@ python manage.py runserver 0.0.0.0:8000
 python manage.py makemigrations <app>
 python manage.py check
 python manage.py migrate
+
+# Add new App
+python manage.py startapp schooltrack
+python manage.py makemigrations schooltrack
+python manage.py check
+python manage.py migrate
+
+# Create admin user
+python manage.py createsuperuser
