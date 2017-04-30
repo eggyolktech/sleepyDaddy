@@ -29,7 +29,7 @@ class School(models.Model):
     
     district = models.CharField(max_length=16, choices=DISTRICT, null=True) 
     
-    school_year = models.IntegerField(null=True)
+    school_year = models.CharField(max_length=10, null=True)
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=200)    
     phone_no = models.CharField(max_length=15)
@@ -37,7 +37,7 @@ class School(models.Model):
     voucher = models.CharField(max_length=1, default='N', editable=False)
 
     SCHOOL_CAT = (
-        ('NPM', 'Non-profit-making'),
+        ('', 'Non-profit-making'),
         ('PI', 'Private Independent')
     )
     
@@ -53,8 +53,11 @@ class School(models.Model):
     school_url = models.CharField(max_length=300, null=True)
     highlight_url = models.CharField(max_length=200) 
     
-    tpratio_am = models.DecimalField(max_digits=3, decimal_places=1, null=True) 
-    tpratio_pm = models.DecimalField(max_digits=3, decimal_places=1, null=True)
+    #tpratio_am = models.DecimalField(max_digits=3, decimal_places=1, null=True) 
+    #tpratio_pm = models.DecimalField(max_digits=3, decimal_places=1, null=True)
+    
+    tpratio_am = models.CharField(max_length=20, null=True) 
+    tpratio_pm = models.CharField(max_length=20, null=True)
     
     vacancy_pn_list = models.TextField(null=True)    
     vacancy_n_list = models.TextField(null=True) 
@@ -75,7 +78,7 @@ class School(models.Model):
     
     admission_url = models.CharField(max_length=300, null=True)
     admission_url_last_hash = models.CharField(max_length=10, null=True)
-    admission_url_last_pub_date = models.DateTimeField('date ranked', editable=False)
+    admission_url_last_pub_date = models.DateTimeField('date ranked', null=True, editable=False)
     
     def __str__(self):
         return str(self.school_no) + " - " + (self.name).encode("utf-8")
