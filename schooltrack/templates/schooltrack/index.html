@@ -1,0 +1,53 @@
+{# this is some other template that you want to display #}
+{% extends "schooltrack\base.html" %}
+{% block content %}
+<div class="jumbotron">
+  <h2 class="sub-header" style="color: #FCA205; font-family: 'Noto Sans TC', sans-serif;">眼瞓爸爸幼稚園報名指南</h1>
+
+  <small><b>來源:</b> <a href="http://kgp2016.highlight.hk/web/" target="_blank">http://kgp2016.highlight.hk/web/</a></small>
+  &nbsp;&nbsp;<!--small><b>分區:</b> <a href="/top250/">ALL</a> - <a href="/top250/filter/360p">360p</a> - <a href="/top250/filter/480p">480p</a> - <a href="/top250/filter/576p">576p</a> - <a href="/top250/filter/None">None</a></small-->
+  <p/>
+
+  <div class="table-responsive">
+    <table class="table table-striped" style="font-size: 13px;">
+      <thead>
+        <tr>
+          <th>學校名稱</th>
+          <th>學校類別</th>
+          <th>學生類別</th>
+          <th>課程類別</th>
+          <th>學卷</th>
+          <th>2-3歲幼兒班</th>
+          <th>報名</th>
+          <th>報名期限&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+      
+        {% if school_list %}
+            {% for s in school_list %}
+                <tr>
+                  <td style="vertical-align: middle;">{{ s.name }}</td>
+                  <td style="vertical-align: middle;">{{ s.category }}</td>
+                  <td style="vertical-align: middle;" align="center">{{ s.student_category }}</td>
+                  <td style="vertical-align: middle;">{{ s.curriculum }}</td>
+                  <td style="vertical-align: middle;">{{ s.voucher }}</td>
+                  <td style="vertical-align: middle;">{{ s.highlight_url }}</td>
+                  <td style="vertical-align: middle;">{{ s.admission_url }}</td>
+                  <td style="vertical-align: middle;"></td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr><td colspan="100%">沒有學校資料</td></tr>
+        {% endif %}
+      
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+{% endblock %}
+
+

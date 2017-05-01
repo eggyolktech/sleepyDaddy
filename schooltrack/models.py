@@ -80,5 +80,7 @@ class School(models.Model):
     admission_url_last_hash = models.CharField(max_length=10, null=True)
     admission_url_last_pub_date = models.DateTimeField('date ranked', null=True, editable=False)
     
+    kgp_url = models.CharField(max_length=300, null=True)
+    
     def __str__(self):
         return str(self.school_no) + " - " + (self.name).encode("utf-8")

@@ -53,9 +53,9 @@ def get_school_list_from_kpg():
             schurl = 'http://kgp2016.highlight.hk/web/schoolinfo.php?schid=' + _schid
             print("School URL: [" + schurl + "]")
             
-            schr = requests.get(schurl, headers=headers)
-            schhtml = schr.text
-            schsoup = BeautifulSoup(schhtml, "html.parser")
+            response = urllib.request.urlopen(schurl)
+            schhtml = response.read().decode("utf-8")   
+            schsoup = BeautifulSoup(schhtml, "html5lib")
             
             if (not schsoup.findAll('table', { "class" : "font_content_schoolinfo"})):
                 print("School HTML: [" + schhtml + "]")
@@ -73,17 +73,21 @@ def get_school_list_from_kpg():
             _school_no = infotables[0].findAll('td')[1].text
             _location_no = infotables[1].findAll('td')[1].text
             _school_year = infotables[2].findAll('td')[0].text
-            _voucher = infotables[2].findAll('td')[3].text.encode("utf-8")
             
-            _school_cat = infotables[3].findAll('td')[1].text.encode("utf-8")
-            _student_type = infotables[3].findAll('td')[3].text.encode("utf-8")
+            if (infotables[2].findAll('td')[3].text.strip() == "有"):
+                _voucher = "Y"
+            else:
+                _voucher = "N"
             
-            if (infotables[3].findAll('a')):
+            _school_cat = infotables[3].findAll('td')[1].text
+            _student_type = infotables[3].findAll('td')[3].text
+            
+            if (infotables[3].findAll('a') and not "Not Available" in infotables[3].findAll('a')[0].text):
                 _school_url = infotables[3].findAll('a')[0].text
             else:
                 _school_url = ""
             
-            _highlight_url = highlighttable.findAll('a')[0]['href']
+            _highlight_url = url + highlighttable.findAll('a')[0]['href']
             
             if (_school_cat.strip() == "私立獨立"):
                 _category = "PI"
@@ -96,43 +100,42 @@ def get_school_list_from_kpg():
                 _student_category = "SINS"
 
             
-            _tpratio_am = infotables[7].findAll('td')[1].text.encode("utf-8")
-            _tpratio_pm = infotables[7].findAll('td')[3].text.encode("utf-8")
+            _tpratio_am = infotables[6].findAll('td')[1].text.strip()
+            _tpratio_pm = infotables[6].findAll('td')[3].text.strip()
             
             _rows = infotables[7].findAll('tr')
-            _vacancy_n_list = [_rows[1].findAll('td')[1].text.encode("utf-8"), _rows[2].findAll('td')[1].text.encode("utf-8"), _rows[3].findAll('td')[1].text.encode("utf-8")] 
-            _vacancy_lkg_list = [_rows[1].findAll('td')[2].text.encode("utf-8"), _rows[2].findAll('td')[2].text.encode("utf-8"), _rows[3].findAll('td')[2].text.encode("utf-8")]
-            _vacancy_ukg_list = [_rows[1].findAll('td')[3].text.encode("utf-8"), _rows[2].findAll('td')[3].text.encode("utf-8"), _rows[3].findAll('td')[3].text.encode("utf-8")]
+            _vacancy_n_list = [_rows[1].findAll('td')[1].text.strip(), _rows[2].findAll('td')[1].text.strip(), _rows[3].findAll('td')[1].text.strip()] 
+            _vacancy_lkg_list = [_rows[1].findAll('td')[2].text.strip(), _rows[2].findAll('td')[2].text.strip(), _rows[3].findAll('td')[2].text.strip()]
+            _vacancy_ukg_list = [_rows[1].findAll('td')[3].text.strip(), _rows[2].findAll('td')[3].text.strip(), _rows[3].findAll('td')[3].text.strip()]
             #_vacancy_pn_list = [_rows[1].findAll('td')[2].text, _rows[2].findAll('td')[].text, _rows[3].findAll('td')[1].text]
             
             _rows = infotables[8].findAll('tr')
             
             try:
-                _annual_fee_n_list = [_rows[1].findAll('td')[2].text.encode("utf-8"), _rows[2].findAll('td')[1].text.encode("utf-8"), _rows[3].findAll('td')[1].text.encode("utf-8")]                
-                _annual_fee_lkg_list = [_rows[1].findAll('td')[3].text.encode("utf-8"), _rows[2].findAll('td')[2].text.encode("utf-8"), _rows[3].findAll('td')[2].text.encode("utf-8")]
-                _annual_fee_ukg_list = [_rows[1].findAll('td')[4].text.encode("utf-8"), _rows[2].findAll('td')[3].text.encode("utf-8"), _rows[3].findAll('td')[3].text.encode("utf-8")]
+                _annual_fee_n_list = [_rows[1].findAll('td')[2].text.strip(), _rows[2].findAll('td')[1].text.strip(), _rows[3].findAll('td')[1].text.strip()]                
+                _annual_fee_lkg_list = [_rows[1].findAll('td')[3].text.strip(), _rows[2].findAll('td')[2].text.strip(), _rows[3].findAll('td')[2].text.strip()]
+                _annual_fee_ukg_list = [_rows[1].findAll('td')[4].text.strip(), _rows[2].findAll('td')[3].text.strip(), _rows[3].findAll('td')[3].text.strip()]
             except Exception as e:
                 _annual_fee_n_list = ["-", "-", "-"]
                 _annual_fee_lkg_list = ["-", "-", "-"]
                 _annual_fee_ukg_list = ["-", "-", "-"]
             
             _rows = infotables[10].findAll('tr')
-            _annual_fee_pn_list = [_rows[2].findAll('td')[0].text.encode("utf-8"), _rows[2].findAll('td')[1].text.encode("utf-8")]
-            _vacancy_pn_list = [_rows[4].findAll('td')[1].text.encode("utf-8")]
+            _annual_fee_pn_list = [_rows[2].findAll('td')[0].text.strip(), _rows[2].findAll('td')[1].text.strip()]
+            _vacancy_pn_list = [_rows[4].findAll('td')[1].text.strip()]
             
-            _curriculum = infotables[11].findAll('tr')[1].findAll('td')[1].text.strip()
             
-            # new movies needs to be created
-            #print(_highlight_url)
+            if (infotables[11].findAll('tr')[1].findAll('td')[1].text.strip() == "本地"):
+                _curriculum = "LOCAL"
+            else:
+                _curriculum = "NLOCAL"
+           
+            _kgp_url = schurl
             
-            s = School(school_no=_school_no, location_no=_location_no, district=_district, school_year=_school_year, name=_name, address=_address, phone_no=_phone_no, fax_no=_fax_no, voucher=_voucher, category=_category, student_category=_student_category, school_url=_school_url, highlight_url=_highlight_url, tpratio_am=_tpratio_am, tpratio_pm=_tpratio_pm, vacancy_pn_list=_vacancy_pn_list, vacancy_n_list=_vacancy_n_list, vacancy_lkg_list=_vacancy_lkg_list, vacancy_ukg_list=_vacancy_ukg_list, annual_fee_pn_list=_annual_fee_pn_list, annual_fee_n_list=_annual_fee_n_list, annual_fee_lkg_list=_annual_fee_lkg_list, annual_fee_ukg_list=_annual_fee_ukg_list, curriculum=_curriculum)
+            # new school needs to be created            
+            s = School(school_no=_school_no, location_no=_location_no, district=_district, school_year=_school_year, name=_name.encode("utf-8"), address=_address.encode("utf-8"), phone_no=_phone_no, fax_no=_fax_no, voucher=_voucher, category=_category, student_category=_student_category, school_url=_school_url, highlight_url=_highlight_url, tpratio_am=_tpratio_am, tpratio_pm=_tpratio_pm, vacancy_pn_list=_vacancy_pn_list, vacancy_n_list=_vacancy_n_list, vacancy_lkg_list=_vacancy_lkg_list, vacancy_ukg_list=_vacancy_ukg_list, annual_fee_pn_list=_annual_fee_pn_list, annual_fee_n_list=_annual_fee_n_list, annual_fee_lkg_list=_annual_fee_lkg_list, annual_fee_ukg_list=_annual_fee_ukg_list, curriculum=_curriculum, kgp_url=_kgp_url)
             s.save()   
             
-            #print([_school_no, _location_no, _school_year, _voucher, _school_cat, _student_type, _tpratio_am, _tpratio_pm])
-            #print(_vacancy_n_list)
-            #print(_annual_fee_n_list)
-        
-        #break
         
 def main():
     get_school_list_from_kpg()
