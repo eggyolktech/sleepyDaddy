@@ -6,7 +6,7 @@ from .models import School
 def index(request):
     school_list = School.objects.filter(district="central")
     school_list = School.objects.order_by('id')
-    context = {'school_list': school_list}    
+    context = {'school_list': school_list, 'district_list': School.DISTRICT}    
     return render(request, 'schooltrack/index.html', context)
 	
 def filter(request, district_filter=None):
@@ -14,5 +14,5 @@ def filter(request, district_filter=None):
         district_filter = None
     school_list = School.objects.filter(district=district_filter)
     school_list = school_list.order_by('id')
-    context = {'school_list': school_list}    
+    context = {'school_list': school_list, 'district_list': School.DISTRICT}    
     return render(request, 'schooltrack/index.html', context)

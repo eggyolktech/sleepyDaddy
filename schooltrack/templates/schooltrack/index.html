@@ -5,7 +5,9 @@
   <h2 class="sub-header" style="color: #FCA205; font-family: 'Noto Sans TC', sans-serif;">眼瞓爸爸幼稚園報名指南</h1>
 
   <small><b>來源:</b> <a href="http://kgp2016.highlight.hk/web/" target="_blank">http://kgp2016.highlight.hk/web/</a></small>
-  &nbsp;&nbsp;<!--small><b>分區:</b> <a href="/top250/">ALL</a> - <a href="/top250/filter/360p">360p</a> - <a href="/top250/filter/480p">480p</a> - <a href="/top250/filter/576p">576p</a> - <a href="/top250/filter/None">None</a></small-->
+  &nbsp;&nbsp;<small><b>分區:</b>{% for d in district_list %}<a href="/top250/"> {{ d.1 }}</a> - {% endfor %}</small>
+  
+  <!--small><b>分區:</b> <a href="/top250/">ALL</a> - <a href="/top250/filter/360p">360p</a> - <a href="/top250/filter/480p">480p</a> - <a href="/top250/filter/576p">576p</a> - <a href="/top250/filter/None">None</a></small-->
   <p/>
 
   <div class="table-responsive">
