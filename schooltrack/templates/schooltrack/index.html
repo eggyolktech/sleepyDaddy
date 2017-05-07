@@ -5,9 +5,8 @@
   <h2 class="sub-header" style="color: #FCA205; font-family: 'Noto Sans TC', sans-serif;">眼瞓爸爸幼稚園報名指南</h1>
 
   <small><b>來源:</b> <a href="http://kgp2016.highlight.hk/web/" target="_blank">http://kgp2016.highlight.hk/web/</a></small>
-  &nbsp;&nbsp;<small><b>分區:</b>{% for d in district_list %}<a href="/top250/"> {{ d.1 }}</a> - {% endfor %}</small>
+  &nbsp;&nbsp;<small><b>分類: </b>{% for d in district_list %}<a href="/schooltrack/district/{{ d.0 }}">{{ d.1 }}</a> - {% endfor %}<a href="/schooltrack/hot/"><font color="red"><b>熱門學校</b></font></a></small>
   
-  <!--small><b>分區:</b> <a href="/top250/">ALL</a> - <a href="/top250/filter/360p">360p</a> - <a href="/top250/filter/480p">480p</a> - <a href="/top250/filter/576p">576p</a> - <a href="/top250/filter/None">None</a></small-->
   <p/>
 
   <div class="table-responsive">
@@ -19,7 +18,8 @@
           <th>學生類別</th>
           <th>課程類別</th>
           <th>學卷</th>
-          <th>2-3歲幼兒班</th>
+          <th>PN班</th>
+          <th>詳細資料</th>
           <th>報名</th>
           <th>報名期限&nbsp;</th>
         </tr>
@@ -29,12 +29,24 @@
         {% if school_list %}
             {% for s in school_list %}
                 <tr>
-                  <td style="vertical-align: middle;">{{ s.name }}</td>
-                  <td style="vertical-align: middle;">{{ s.category }}</td>
-                  <td style="vertical-align: middle;" align="center">{{ s.student_category }}</td>
-                  <td style="vertical-align: middle;">{{ s.curriculum }}</td>
-                  <td style="vertical-align: middle;">{{ s.voucher }}</td>
-                  <td style="vertical-align: middle;">{{ s.highlight_url }}</td>
+                  <td style="vertical-align: middle;">{{ s.name }}&nbsp;
+                      <a href="/admin/schooltrack/school/{{ s.id }}/change/" target="_blank"><img src="http://www.nwitimes.com/content/tncms/site/icon.ico"/></a>
+                      {% if s.school_url %}
+                        <a href="{{ s.school_url }}" alt="{{ s.school_url }}" title="{{ s.school_url }}" target="_blank"><img src="http://www.pennstateclothes.com/images/icon_home.png"/></a>
+                      {% endif %}
+                      {% if s.address %}
+                        <a href="https://maps.google.com?q={{ s.name }}" target="_blank"><img src="https://www.operativehire.co.uk/wp-content/themes/Total/AWT-Location.png" alt="{{ s.address }}" title="{{ s.address }}"/></a>
+                      {% endif %}
+                      {% if s.phone_no %}
+                        <img src="http://pnga.mypng.cn/0802/phone.png" alt="{{ s.phone_no }}" title="{{ s.phone_no }}"/>
+                      {% endif %}
+                  </td>
+                  <td style="vertical-align: middle;">{{ s.get_category_display }}</td>
+                  <td style="vertical-align: middle;">{{ s.get_student_category_display }}</td>
+                  <td style="vertical-align: middle;">{{ s.get_curriculum_display }}</td>
+                  <td style="vertical-align: middle;">{{ s.get_voucher_display }}</td>
+                  <td style="vertical-align: middle;">{{ s.get_is_n_available_display }}</td>
+                  <td style="vertical-align: middle;"><a href="{{ s.highlight_url }}" target="_blank">2016/17</a></td>
                   <td style="vertical-align: middle;">{{ s.admission_url }}</td>
                   <td style="vertical-align: middle;"></td>
                 </tr>

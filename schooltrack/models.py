@@ -4,7 +4,7 @@ from django.utils.encoding import python_2_unicode_compatible
 # Create your models here.
 class School(models.Model):
     school_no = models.CharField(max_length=8)
-    location_no = models.CharField(max_length=8) 
+    location_no = models.CharField(max_length=20) 
     
     DISTRICT = (
         ('central', '中西區'),
@@ -32,20 +32,33 @@ class School(models.Model):
     school_year = models.CharField(max_length=10, null=True)
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=200)    
-    phone_no = models.CharField(max_length=15)
-    fax_no = models.CharField(max_length=15)
-    voucher = models.CharField(max_length=1, default='N', editable=False)
-
+    phone_no = models.CharField(max_length=50)
+    fax_no = models.CharField(max_length=30)
+    
+    YESNO = (
+        ('Y', '有'),
+        ('N', '沒有')
+    ) 
+    
+    YESNO2 = (
+        ('Y', 'Yes'),
+        ('N', 'No')
+    )     
+    
+    voucher = models.CharField(max_length=1, default='N', choices=YESNO, editable=True)
+    is_n_available = models.CharField(max_length=1, default='N', choices=YESNO, editable=True)
+    is_hot = models.CharField(max_length=1, default='N', choices=YESNO2, editable=True)
+    
     SCHOOL_CAT = (
-        ('', 'Non-profit-making'),
-        ('PI', 'Private Independent')
+        ('NPM', '非牟利'),
+        ('PI', '私立')
     )
     
     category = models.CharField(max_length=4, choices=SCHOOL_CAT, null=True) 
 
     STUDENT_CAT = (
-        ('COED', 'Co-educational'),
-        ('SINS', 'Single Sex')
+        ('COED', '男女'),
+        ('SINS', '女')
     )
     
     student_category = models.CharField(max_length=4, choices=STUDENT_CAT, null=True) 
@@ -70,17 +83,17 @@ class School(models.Model):
     annual_fee_ukg_list = models.TextField(null=True)
 
     CURRICULUM = (
-        ('LOCAL', 'Local'),
-        ('NLOCAL', 'Non-Local')
+        ('LOCAL', '本地'),
+        ('NLOCAL', '非本地')
     )    
     
     curriculum = models.CharField(max_length=6, choices=CURRICULUM, null=True) 
     
-    admission_url = models.CharField(max_length=300, null=True)
-    admission_url_last_hash = models.CharField(max_length=10, null=True)
+    admission_url = models.CharField(max_length=300, null=True, blank=True)
+    admission_url_last_hash = models.CharField(max_length=10, null=True, blank=True)
     admission_url_last_pub_date = models.DateTimeField('date ranked', null=True, editable=False)
     
     kgp_url = models.CharField(max_length=300, null=True)
     
     def __str__(self):
-        return str(self.school_no) + " - " + (self.name).encode("utf-8")
+        return str(self.school_no) + " - " + (self.name)

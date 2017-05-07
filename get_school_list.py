@@ -124,6 +124,11 @@ def get_school_list_from_kpg():
             _annual_fee_pn_list = [_rows[2].findAll('td')[0].text.strip(), _rows[2].findAll('td')[1].text.strip()]
             _vacancy_pn_list = [_rows[4].findAll('td')[1].text.strip()]
             
+            if (_rows[0].findAll('td')[1].text.strip() == "有"):
+                _is_n_available = "Y"
+            else:
+                _is_n_available = "N"
+            
             
             if (infotables[11].findAll('tr')[1].findAll('td')[1].text.strip() == "本地"):
                 _curriculum = "LOCAL"
@@ -133,9 +138,10 @@ def get_school_list_from_kpg():
             _kgp_url = schurl
             
             # new school needs to be created            
-            s = School(school_no=_school_no, location_no=_location_no, district=_district, school_year=_school_year, name=_name.encode("utf-8"), address=_address.encode("utf-8"), phone_no=_phone_no, fax_no=_fax_no, voucher=_voucher, category=_category, student_category=_student_category, school_url=_school_url, highlight_url=_highlight_url, tpratio_am=_tpratio_am, tpratio_pm=_tpratio_pm, vacancy_pn_list=_vacancy_pn_list, vacancy_n_list=_vacancy_n_list, vacancy_lkg_list=_vacancy_lkg_list, vacancy_ukg_list=_vacancy_ukg_list, annual_fee_pn_list=_annual_fee_pn_list, annual_fee_n_list=_annual_fee_n_list, annual_fee_lkg_list=_annual_fee_lkg_list, annual_fee_ukg_list=_annual_fee_ukg_list, curriculum=_curriculum, kgp_url=_kgp_url)
+            s = School(school_no=_school_no, location_no=_location_no, district=_district, school_year=_school_year, name=_name.encode("utf-8"), address=_address.encode("utf-8"), phone_no=_phone_no, fax_no=_fax_no, voucher=_voucher, category=_category, student_category=_student_category, school_url=_school_url, highlight_url=_highlight_url, tpratio_am=_tpratio_am, tpratio_pm=_tpratio_pm, vacancy_pn_list=_vacancy_pn_list, vacancy_n_list=_vacancy_n_list, vacancy_lkg_list=_vacancy_lkg_list, vacancy_ukg_list=_vacancy_ukg_list, annual_fee_pn_list=_annual_fee_pn_list, annual_fee_n_list=_annual_fee_n_list, annual_fee_lkg_list=_annual_fee_lkg_list, annual_fee_ukg_list=_annual_fee_ukg_list, curriculum=_curriculum, kgp_url=_kgp_url, is_n_available = _is_n_available)
             s.save()   
-            
+         
+        #break
         
 def main():
     get_school_list_from_kpg()
