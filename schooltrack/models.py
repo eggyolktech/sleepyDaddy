@@ -89,6 +89,8 @@ class School(models.Model):
     
     curriculum = models.CharField(max_length=6, choices=CURRICULUM, null=True) 
     
+    admission_dtl_url1 = models.CharField(max_length=300, null=True, blank=True)
+    admission_dtl_url2 = models.CharField(max_length=300, null=True, blank=True)
     admission_url = models.CharField(max_length=300, null=True, blank=True)
     admission_url_last_hash = models.CharField(max_length=10, null=True, blank=True)
     admission_url_last_pub_date = models.DateTimeField('date ranked', null=True, editable=False)

@@ -19,7 +19,7 @@
           <th>課程類別</th>
           <th>學卷</th>
           <th>PN班</th>
-          <th>詳細資料</th>
+          <th>詳細</th>
           <th>報名</th>
           <th>報名期限&nbsp;</th>
         </tr>
@@ -46,8 +46,18 @@
                   <td style="vertical-align: middle;">{{ s.get_curriculum_display }}</td>
                   <td style="vertical-align: middle;">{{ s.get_voucher_display }}</td>
                   <td style="vertical-align: middle;">{{ s.get_is_n_available_display }}</td>
-                  <td style="vertical-align: middle;"><a href="{{ s.highlight_url }}" target="_blank">2016/17</a></td>
-                  <td style="vertical-align: middle;">{{ s.admission_url }}</td>
+                  <td style="vertical-align: middle;"><a href="{{ s.highlight_url }}" target="_blank"><img src="https://www.library.ucsb.edu/sites/all/themes/custom/ucsblib_theme/images/info-icon.gif"/></a></td>
+                  <td style="vertical-align: middle;">
+                  {% if s.admission_url %}
+                    <a href="{{ s.admission_url }}" target="_blank"><img src="https://viralwebvideos.com/templates/default/img/ico-verified.png"/></a>
+                  {% endif %}
+                  {% if s.admission_dtl_url1 %}
+                    <a href="{{ s.admission_dtl_url1 }}" target="_blank"><img src="http://bioso.ncpsb.org/images/ico-help-blue.png" /></a>
+                  {% endif %}
+                  {% if s.admission_dtl_url2 %}
+                    <a href="{{ s.admission_dtl_url2 }}" target="_blank"><img src="http://bioso.ncpsb.org/images/ico-help-blue.png" /></a>
+                  {% endif %}
+                  </a></td>
                   <td style="vertical-align: middle;"></td>
                 </tr>
             {% endfor %}

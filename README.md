@@ -10,7 +10,7 @@ django-admin startproject sleepydaddy
 python manage.py runserver 0.0.0.0:8000
 
 # Make Migration
-python manage.py makemigrations <app>
+python manage.py makemigrations schooltrack
 python manage.py check
 python manage.py migrate
 
