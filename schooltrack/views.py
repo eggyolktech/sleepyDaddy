@@ -2,6 +2,7 @@ import urllib.request, json
 from django.shortcuts import get_object_or_404, render
 
 from .models import School
+from .forms import SchoolForm
 
 YESNO = (
     ('Y', '有'),
@@ -38,3 +39,26 @@ def hot(request):
     context = {'school_list': school_list}
     context = {**context, **label_list}
     return render(request, 'schooltrack/index.html', context)
+    
+def search_school(request):
+
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = SchoolForm(request.POST)
+        # check whether it's valid:
+        
+        #table.objects.filter(string__icontains='pattern')
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+             
+            search_school = form.cleaned_data['search_school']
+            #print("search string=" + str(search_movie))
+            school_list = School.objects.filter(name__icontains=search_school)
+            school_list = school_list.order_by('id')
+            context = {'school_list': school_list}
+            context = {**context, **label_list}
+
+            # redirect to a new URL:
+            return render(request, 'schooltrack/index.html', context)
+        return HttpResponseRedirect('schooltrack/')
