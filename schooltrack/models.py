@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+from datetime import datetime
+from datetime import date
 
 # Create your models here.
 class School(models.Model):
@@ -92,10 +94,21 @@ class School(models.Model):
     admission_dtl_url1 = models.CharField(max_length=300, null=True, blank=True)
     admission_dtl_url2 = models.CharField(max_length=300, null=True, blank=True)
     admission_url = models.CharField(max_length=300, null=True, blank=True)
-    admission_url_last_hash = models.CharField(max_length=10, null=True, blank=True)
-    admission_url_last_pub_date = models.DateTimeField('date ranked', null=True, editable=False)
+    admission_url_last_hash = models.CharField(max_length=40, null=True, blank=True)
+    admission_url_last_pub_date = models.DateTimeField('Date Ranked', null=True, editable=False)
+    
+    admission_start_date = models.DateField('Application Start date', null=True, blank=True, editable=True) 
+    admission_end_date = models.DateField('Application Start date', null=True, blank=True, editable=True) 
     
     kgp_url = models.CharField(max_length=300, null=True)
     
+    @property
+    def is_new(self):
+        time_dt = date.today() - self.admission_url_last_pub_date
+        print(time_dt.days)
+        if time_dt.days < 5:
+            return True
+        return False
+        
     def __str__(self):
         return str(self.school_no) + " - " + (self.name)
