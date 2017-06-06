@@ -48,9 +48,6 @@
                   <td style="vertical-align: middle;">{{ s.get_is_n_available_display }}</td>
                   <td style="vertical-align: middle;"><a href="{{ s.highlight_url }}" target="_blank"><img src="https://www.library.ucsb.edu/sites/all/themes/custom/ucsblib_theme/images/info-icon.gif"/></a></td>
                   <td style="vertical-align: middle;">
-                      {% if s.is_new %}
-                        <img src="http://www.bestpokertorrents.com/img/icons/new-text.png"/>
-                      {% endif %}
                       {% if s.admission_url %}
                         <a href="{{ s.admission_url }}" alt="{{ s.admission_url_last_pub_date }}"  title="{{ s.admission_url_last_pub_date }}" target="_blank"><img src="https://viralwebvideos.com/templates/default/img/ico-verified.png"/></a>
                       {% endif %}
@@ -59,6 +56,9 @@
                       {% endif %}
                       {% if s.admission_dtl_url2 %}
                         <a href="{{ s.admission_dtl_url2 }}" target="_blank"><img src="http://bioso.ncpsb.org/images/ico-help-blue.png" /></a>
+                      {% endif %}
+                      {% if s.is_new %}
+                        <img src="https://stat.ameba.jp/blog/ucs/img/char/char2/265.gif"/>
                       {% endif %}
                   </td>
                   <td style="vertical-align: middle;">

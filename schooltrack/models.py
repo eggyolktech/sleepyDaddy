@@ -2,6 +2,10 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from datetime import datetime
 from datetime import date
+import logging
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
 
 # Create your models here.
 class School(models.Model):
@@ -104,11 +108,12 @@ class School(models.Model):
     
     @property
     def is_new(self):
-        time_dt = date.today() - self.admission_url_last_pub_date
-        print(time_dt.days)
-        if time_dt.days < 5:
-            return True
-        return False
         
+        if self.admission_url_last_pub_date:        
+            time_dt = datetime.now() - self.admission_url_last_pub_date
+            if time_dt.days < 5:
+                return True
+        return False
+
     def __str__(self):
         return str(self.school_no) + " - " + (self.name)
