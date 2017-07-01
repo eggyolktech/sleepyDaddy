@@ -43,8 +43,9 @@ def main():
     
         try:
             name = school.name
+            print(name)
         except:
-            name = school.name.encode("utf-8")
+            name = str(school.name.encode("utf-8"))
     
         
         url = school.admission_url
